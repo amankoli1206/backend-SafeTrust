@@ -18,13 +18,8 @@ router.post(
       return x402Middleware(req, res, next)
     }
 
-    // TrustlessWork callbacks must still pass signature verification.
-    if (req.headers['x-trustlesswork-signature']) {
-      return (verifyTrustlessWorkSignature as RequestHandler)(req, res, next)
-    }
-
-    // Do not fall through to the handler when x402 is disabled.
-    return x402Middleware(req, res, next)
+    // TrustlessWork callbacks must pass signature verification.
+    return (verifyTrustlessWorkSignature as RequestHandler)(req, res, next)
   },
   initializeEscrowHandler
 )
